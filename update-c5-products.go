@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"github.com/mholt/archiver"
 	"path"
+	"time"
+	"strconv"
 )
 
 func main() {
@@ -28,8 +30,10 @@ func main() {
 	if err != nil {
 		fmt.Print(err)
 	}
+
+	timestamp:= strconv.FormatInt(time.Now().Unix(),10)
 	// Create the updated zip
-	createArchive("./c5-custom-product-5.3.0", "update1")
+	createArchive("./c5-custom-product-5.3.0", timestamp)
 }
 
 // Extracts the given distribution
@@ -125,6 +129,6 @@ func updateDistribution() error {
 }
 
 // Creates the updated archive
-func createArchive(destination,updateLevel string) {
-	archiver.Zip.Make(path.Join(destination+updateLevel+".zip"),[]string{"c5-custom-product-5.3.0"})
+func createArchive(destination,timestamp string) {
+	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"),[]string{"c5-custom-product-5.3.0"})
 }
