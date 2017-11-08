@@ -1,0 +1,14 @@
+<assembly>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>${c5-custom-product.and.version}-update1</baseDirectory>
+    <id>update1</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${c5-custom-product.and.version}</directory>
+            <outputDirectory></outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
