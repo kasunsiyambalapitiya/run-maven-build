@@ -8,19 +8,28 @@ import (
 	"fmt"
 	"archive/zip"
 	"path/filepath"
+	"github.com/mholt/archiver"
+	"path"
 )
 
 func main() {
 	// Download the pom from server
-	downloadPOM("http://10.100.1.85:8484/pom.xml", "pom.xml")
-	// Extract the given distribution
-	extractDistribution("./c5-custom-product-5.3.0.zip", "./")
-	// Update the distribution
-	err := updateDistribution()
+	err := downloadPOM("http://10.100.1.85:8484/pom.xml", "pom.xml")
 	if err != nil {
 		fmt.Print(err)
 	}
-
+	// Extract the given distribution
+	err = extractDistribution("./c5-custom-product-5.3.0.zip", "./")
+	if err != nil {
+		fmt.Print(err)
+	}
+	// Update the distribution
+	err = updateDistribution()
+	if err != nil {
+		fmt.Print(err)
+	}
+	// Create the updated zip
+	createArchive("./c5-custom-product-5.3.0", "update1")
 }
 
 // Extracts the given distribution
@@ -113,4 +122,9 @@ func updateDistribution() error {
 	}
 	fmt.Printf("%s", output)
 	return nil
+}
+
+// Creates the updated archive
+func createArchive(destination,updateLevel string) {
+	archiver.Zip.Make(path.Join(destination+updateLevel+".zip"),[]string{"c5-custom-product-5.3.0"})
 }
