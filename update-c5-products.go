@@ -15,8 +15,18 @@ import (
 )
 
 func main() {
+	// Download maven distribution
+	err := downloadContent("http://10.100.1.85:8484/apache-maven-3.5.2-bin.zip", "apache-maven-3.5.2-bin.zip")
+	if err != nil {
+		fmt.Print(err)
+	}
+	// Extract maven distribution
+	err = extractDistribution("./apache-maven-3.5.2-bin.zip", "./")
+	if err != nil {
+		fmt.Print(err)
+	}
 	// Download the pom from server
-	err := downloadPOM("http://10.100.1.85:8484/pom.xml", "pom.xml")
+	err = downloadContent("http://10.100.1.85:8484/pom.xml", "pom.xml")
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -31,7 +41,7 @@ func main() {
 		fmt.Print(err)
 	}
 
-	timestamp:= strconv.FormatInt(time.Now().Unix(),10)
+	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
 	// Create the updated zip
 	createArchive("./c5-custom-product-5.3.0", timestamp)
 
@@ -94,8 +104,8 @@ func extractFile(file *zip.File, destination string) error {
 	return nil
 }
 
-// Downloads the pom from server
-func downloadPOM(URL, location string) error {
+// Downloads content from server
+func downloadContent(URL, location string) error {
 	// Create the file in the file system
 	out, err := os.Create(location)
 	if err != nil {
@@ -103,7 +113,7 @@ func downloadPOM(URL, location string) error {
 	}
 	defer out.Close()
 
-	// Get pom.xml from server
+	// Get content from server
 	response, err := http.Get(URL)
 	if err != nil {
 		return err
@@ -132,13 +142,15 @@ func updateDistribution() error {
 }
 
 // Creates the updated archive
-func createArchive(destination,timestamp string) {
-	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"),[]string{"c5-custom-product-5.3.0"})
+func createArchive(destination, timestamp string) {
+	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"), []string{"c5-custom-product-5.3.0"})
 }
 
 // Deletes temp directories/files
-func deleteTempFiles(){
+func deleteTempFiles() {
 	os.RemoveAll("./c5-custom-product-5.3.0")
 	os.RemoveAll("./target")
+	os.RemoveAll("./apache-maven-3.5.2")
 	os.Remove("./pom.xml")
+	os.Remove("apache-maven-3.5.2-bin.zip")
 }
