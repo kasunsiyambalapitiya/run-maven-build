@@ -15,18 +15,22 @@ import (
 )
 
 func main() {
-	// Download maven distribution
-	err := downloadContent("http://10.100.1.85:8484/apache-maven-3.5.2-bin.zip", "apache-maven-3.5.2-bin.zip")
-	if err != nil {
-		fmt.Print(err)
+	// Check for existence of maven distribution and if it doesn't download and extract maven
+	if _,err:=os.Stat("./apache-maven-3.5.2");os.IsNotExist(err){
+		// Download maven distribution
+		err = downloadContent("http://10.100.1.85:8484/apache-maven-3.5.2-bin.zip", "apache-maven-3.5.2-bin.zip")
+		if err != nil {
+			fmt.Print(err)
+		}
+		// Extract maven distribution
+		err = extractDistribution("./apache-maven-3.5.2-bin.zip", "./")
+		if err != nil {
+			fmt.Print(err)
+		}
 	}
-	// Extract maven distribution
-	err = extractDistribution("./apache-maven-3.5.2-bin.zip", "./")
-	if err != nil {
-		fmt.Print(err)
-	}
+
 	// Download the pom from server
-	err = downloadContent("http://10.100.1.85:8484/pom.xml", "pom.xml")
+	err := downloadContent("http://10.100.1.85:8484/pom.xml", "pom.xml")
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -150,7 +154,7 @@ func createArchive(destination, timestamp string) {
 func deleteTempFiles() {
 	os.RemoveAll("./c5-custom-product-5.3.0")
 	os.RemoveAll("./target")
-	os.RemoveAll("./apache-maven-3.5.2")
+	//os.RemoveAll("./apache-maven-3.5.2")
 	os.Remove("./pom.xml")
 	os.Remove("apache-maven-3.5.2-bin.zip")
 }
