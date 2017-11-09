@@ -35,8 +35,8 @@ func main() {
 	// Create the updated zip
 	createArchive("./c5-custom-product-5.3.0", timestamp)
 
-	// Delete temp directories
-	deleteTempDir()
+	// Delete temp directories/files
+	deleteTempFiles()
 }
 
 // Extracts the given distribution
@@ -136,8 +136,9 @@ func createArchive(destination,timestamp string) {
 	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"),[]string{"c5-custom-product-5.3.0"})
 }
 
-// Deletes temp directories
-func deleteTempDir(){
+// Deletes temp directories/files
+func deleteTempFiles(){
 	os.RemoveAll("./c5-custom-product-5.3.0")
 	os.RemoveAll("./target")
+	os.Remove("./pom.xml")
 }
