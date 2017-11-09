@@ -103,8 +103,6 @@ func extractFile(file *zip.File, destination string) error {
 			return err
 		}
 	}
-
-	// Todo change the m2 location
 	return nil
 }
 
