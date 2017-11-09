@@ -34,6 +34,9 @@ func main() {
 	timestamp:= strconv.FormatInt(time.Now().Unix(),10)
 	// Create the updated zip
 	createArchive("./c5-custom-product-5.3.0", timestamp)
+
+	// Delete temp directories
+	deleteTempDir()
 }
 
 // Extracts the given distribution
@@ -131,4 +134,10 @@ func updateDistribution() error {
 // Creates the updated archive
 func createArchive(destination,timestamp string) {
 	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"),[]string{"c5-custom-product-5.3.0"})
+}
+
+// Deletes temp directories
+func deleteTempDir(){
+	os.RemoveAll("./c5-custom-product-5.3.0")
+	os.RemoveAll("./target")
 }
