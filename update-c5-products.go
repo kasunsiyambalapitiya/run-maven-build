@@ -35,7 +35,7 @@ func main() {
 		fmt.Print(err)
 	}
 	// Extract the given distribution
-	err = extractDistribution("./c5-custom-product-5.3.0.zip", "./")
+	err = extractDistribution("./c5-custom-product-5.4.0.zip", "./")
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -47,7 +47,7 @@ func main() {
 
 	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
 	// Create the updated zip
-	createArchive("./c5-custom-product-5.3.0", timestamp)
+	createArchive("./c5-custom-product-5.4.0", timestamp)
 
 	// Delete temp directories/files
 	deleteTempFiles()
@@ -145,12 +145,12 @@ func updateDistribution() error {
 
 // Creates the updated archive
 func createArchive(destination, timestamp string) {
-	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"), []string{"c5-custom-product-5.3.0"})
+	archiver.Zip.Make(path.Join(destination+"-"+timestamp+".zip"), []string{"c5-custom-product-5.4.0"})
 }
 
 // Deletes temp directories/files
 func deleteTempFiles() {
-	os.RemoveAll("./c5-custom-product-5.3.0")
+	os.RemoveAll("./c5-custom-product-5.4.0")
 	os.RemoveAll("./target")
 	//os.RemoveAll("./apache-maven-3.5.2")
 	os.Remove("./pom.xml")
